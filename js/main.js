@@ -241,3 +241,92 @@ musicBtn.addEventListener("click", () => {
     musicBtn.textContent = "🎵";
   }
 });
+
+// ---------- Our songs ----------
+function renderSongs() {
+  const section = document.getElementById("songs");
+  section.innerHTML = `
+    <h2 class="section-title">Our Songs 🎶</h2>
+    <p class="section-sub">Tip: tap 🎵 to pause the background music before playing a song here.</p>
+    <div class="songs-grid"></div>`;
+  const grid = section.querySelector(".songs-grid");
+
+  SONGS.forEach(s => {
+    const match = (s.spotify || "").match(/track\/([A-Za-z0-9]+)/);
+    const player = match
+      ? `<iframe src="https://open.spotify.com/embed/track/${match[1]}"
+                 width="100%" height="152" loading="lazy"
+                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`
+      : "";
+
+    const card = document.createElement("div");
+    card.className = "song-card";
+    card.innerHTML = `
+      <h3>${s.title}</h3>
+      <span class="song-artist">${s.artist}</span>
+      <p>${s.note}</p>
+      ${player}`;
+    grid.appendChild(card);
+  });
+}
+
+renderSongs();
+
+// ---------- Entry screen (code lock) ----------
+(function setupLock() {
+  const screen = document.getElementById("lock-screen");
+  const input = document.getElementById("lock-input");
+  const btn = document.getElementById("lock-btn");
+  const err = document.getElementById("lock-error");
+  const box = screen.querySelector(".lock-box");
+  const icon = screen.querySelector(".lock-icon");
+
+  document.getElementById("lock-name").textContent = CONFIG.nickname;
+  document.getElementById("lock-hint").textContent = LOCK.hint;
+
+  const digits = s => s.replace(/\D/g, "");
+
+  // Already unlocked in this browser tab? Skip the screen.
+  try {
+    if (sessionStorage.getItem("unlocked") === "yes") {
+      screen.style.display = "none";
+      document.body.classList.remove("locked");
+      return;
+    }
+  } catch (e) {}
+
+  function check() {
+    const typed = digits(input.value);
+    const correct = typed && LOCK.codes.some(c => digits(c) === typed);
+
+    if (correct) {
+      icon.textContent = "🔓";
+      err.textContent = "";
+      try { sessionStorage.setItem("unlocked", "yes"); } catch (e) {}
+
+      if (LOCK.playMusicOnUnlock) {
+        music.play()
+          .then(() => {
+            musicBtn.classList.add("playing");
+            musicBtn.textContent = "🔊";
+          })
+          .catch(() => {});
+      }
+
+      setTimeout(() => {
+        screen.classList.add("hidden");
+        document.body.classList.remove("locked");
+      }, 700);
+    } else {
+      err.textContent = LOCK.wrongMessage;
+      box.classList.remove("shake");
+      void box.offsetWidth;          // restarts the shake animation
+      box.classList.add("shake");
+      input.select();
+    }
+  }
+
+  btn.addEventListener("click", check);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+  input.focus();
+})();

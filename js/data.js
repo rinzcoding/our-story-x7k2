@@ -79,3 +79,34 @@ const LETTER = {
   closing: "Forever yours,",
   signature: "Your bebii jorell 💜"
 };
+
+const LOCK = {
+  // Every code that opens the site. Only the digits count,
+  // so "06/08" and "0608" both work.
+  codes: ["0608", "0806", "06082026"],
+  hint: "Hint: the day we became official 💜 (month + day)",
+  wrongMessage: "Not quite, try again 💜",
+  playMusicOnUnlock: true   // set to false if you don't want auto-music
+};
+
+const SONGS = [
+  {
+    title: "Mahika",
+    artist: "Adie",
+    note: "THis is the first adie song I listened to, and it reminds me of you.",
+    spotify: "https://open.spotify.com/intl-es/track/2nqlM3gNBMi5Zf9MDzp2Xi?si=a38a8f2029424576"   // paste the Spotify song link between the quotes
+  },
+  {
+    title: "Oh, Giliw",
+    artist: "Adie",
+    note: "Your Favorite song.",
+    spotify: "https://open.spotify.com/intl-es/track/5oV4B6QECdCASfEfElcIQA?si=41455ebb3b4f41c1"
+  },
+  {
+    title: "Paraluman",
+    artist: "Adie",
+    note: "I add this cuz, you're my paraluman",
+    spotify: "https://open.spotify.com/intl-es/track/2jbf9EytR7fzpSrPWAYCf9?si=39aed3c7efcb411d"
+  }
+  // Add more by copying a block. Keep the comma after each block except the last!
+];

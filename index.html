@@ -6,7 +6,19 @@
   <title>For Bebii 💜</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="locked"></body>
+  <!-- Entry screen -->
+  <div id="lock-screen">
+    <div class="lock-box">
+      <div class="lock-icon">🔒</div>
+      <h2>This is just for you, <span id="lock-name">Bebii</span> 💜</h2>
+      <p id="lock-hint"></p>
+      <input id="lock-input" type="text" inputmode="numeric" maxlength="8"
+             placeholder="• • • •" autocomplete="off">
+      <button id="lock-btn">Unlock 💜</button>
+      <p id="lock-error"></p>
+    </div>
+  </div>
   <canvas id="hearts-bg"></canvas>
 
   <header class="hero" id="home">
@@ -38,6 +50,7 @@
   <section id="timeline"></section>
   <section id="gallery"></section>
   <section id="reasons"></section>
+  <section id="songs"></section>
   <section id="letter"></section>
 
   <button id="music-btn" aria-label="Play or pause music">🎵</button>
